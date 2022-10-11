@@ -7,9 +7,9 @@ option_btn.addEventListener("click", ()=>{
 });
 
 
-let propertyurl = "http://localhost:3000/fetchall";
-let wishlisturl = "http://localhost:3000/fetchMyFav";
-const userUrl = "http://localhost:3000/fetchuser";
+let propertyurl = "/fetchall";
+let wishlisturl = "/fetchMyFav";
+const userUrl = "/fetchuser";
 async function myWhishlist(){
     try {
         const propD = await fetch(propertyurl);
@@ -23,7 +23,7 @@ async function myWhishlist(){
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
 
         //removing login signup options whwn a user is logged in::
         list.firstElementChild.remove();
@@ -106,7 +106,7 @@ async function myWhishlist(){
             for (let i=0; i<data.length; i++){
                 document.querySelectorAll(".myFav_prop_name")[i].textContent = data[i].property_name;
     
-                document.querySelectorAll(".myFav_img")[i].style.backgroundImage = `url("http://localhost:3000/getImages/${data[i].images[0]}")`;
+                document.querySelectorAll(".myFav_img")[i].style.backgroundImage = `url("/getImages/${data[i].images[0]}")`;
     
                 document.querySelectorAll(".title")[i].textContent = wishData[i].title;
     
@@ -120,7 +120,7 @@ async function myWhishlist(){
     
                 document.querySelectorAll(".button_to_booking")[i].addEventListener("click", ()=>{
                     localStorage.setItem("clickedPropertyId", data[i].property_id);
-                    window.location.assign("http://localhost:3000/hotelBooking")
+                    window.location.assign("/hotelBooking")
                 });
     
                 const action_form = document.querySelector(".theForm");
@@ -134,7 +134,7 @@ async function myWhishlist(){
     
                     document.querySelector(".name_of_the_prop").textContent = data[i].property_name;
     
-                    action_form.setAttribute("action", `http://localhost:3000/delmyFavourite/${data[i].property_id}`);
+                    action_form.setAttribute("action", `/delmyFavourite/${data[i].property_id}`);
                 });
     
                 const cancel = document.querySelector(".cancel");

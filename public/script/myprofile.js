@@ -93,8 +93,8 @@ const deleteuser = document.getElementById("delete-user");
 
 //IIFE::
 (async function (){
-    let wishlisturl = "http://localhost:3000/fetchMyFav";
-    const userUrl = "http://localhost:3000/fetchuser";
+    let wishlisturl = "/fetchMyFav";
+    const userUrl = "/fetchuser";
 
         const wd = await fetch(wishlisturl);
         const wishD = await wd.json();
@@ -115,9 +115,9 @@ const deleteuser = document.getElementById("delete-user");
 
         const user_img = document.querySelector(".my_user_image");
 
-        user_img.style.backgroundImage = `url("http://localhost:3000/getImages/${userdata[0].user_image}")`;
+        user_img.style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/${userdata[0].user_image}")`
+        document.getElementById("loginuser_image").style.backgroundImage = `url("getImages/${userdata[0].user_image}")`
 }());

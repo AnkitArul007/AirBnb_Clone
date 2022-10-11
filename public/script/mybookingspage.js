@@ -5,9 +5,9 @@ option_btn.addEventListener("click", ()=>{
 });
 
 
-let bookingsurl = "http://localhost:3000/fetchbookings";
-let propertyurl = "http://localhost:3000/fetchall";
-const userUrl = "http://localhost:3000/fetchuser";
+let bookingsurl = "/fetchbookings";
+let propertyurl = "/fetchall";
+const userUrl = "/fetchuser";
 async function mybookings(){
     try {
         const bookings = await fetch(bookingsurl);
@@ -23,7 +23,7 @@ async function mybookings(){
         //setting up the login btn image::
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/abc.png")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/abc.png")`;
         // console.log(userdata[0].user_image);
 
         //removing login signup options whwn a user is logged in::
@@ -58,8 +58,8 @@ async function mybookings(){
 
         //IIFE::
         (async function (){
-            let wishlisturl = "http://localhost:3000/fetchMyFav";
-            const userUrl = "http://localhost:3000/fetchuser";
+            let wishlisturl = "/fetchMyFav";
+            const userUrl = "/fetchuser";
 
                 const wd = await fetch(wishlisturl);
                 const wishD = await wd.json();
@@ -218,7 +218,7 @@ async function mybookings(){
                     prop_name[i].textContent = ele.property_name;    
                     location[i].textContent = ele.property_details.city;
 
-                    prop_image[i].style.backgroundImage = `url("http://localhost:3000/getImages/${ele.images[0]}")`
+                    prop_image[i].style.backgroundImage = `url("/getImages/${ele.images[0]}")`
                 }
             });
 
@@ -255,12 +255,12 @@ async function mybookings(){
 
             prop_image[i].addEventListener("click", ()=>{
                 localStorage.setItem("clickedPropertyId", bookingsdata[i].property_id);
-                window.location.assign("http://localhost:3000/hotelBooking");
+                window.location.assign("/hotelBooking");
             });
 
             prop_name[i].addEventListener("click", ()=>{
                 localStorage.setItem("clickedPropertyId", bookingsdata[i].property_id);
-                window.location.assign("http://localhost:3000/hotelBooking");
+                window.location.assign("/hotelBooking");
             });
 
             //removing the rating btn if the host himself has booked his own hotel, so that he can't rate his own hotel::
@@ -304,12 +304,12 @@ async function mybookings(){
             ok[i].addEventListener("click", async()=>{
 
                 console.log(bookingsdata[i].booking_id);
-                let bookingCancelUrl = `http://localhost:3000/delBookings/${bookingsdata[i].booking_id}`;
+                let bookingCancelUrl = `/delBookings/${bookingsdata[i].booking_id}`;
                 
                 const response = await fetch(bookingCancelUrl);
 
                 if (response.status == 200){
-                    window.location.assign("http://localhost:3000/mybookingspage");
+                    window.location.assign("/mybookingspage");
                 }
 
             });

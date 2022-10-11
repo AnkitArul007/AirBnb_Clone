@@ -9,8 +9,8 @@ option_btn.addEventListener("click", ()=>{
 //removing login signup options whwn a user is logged in::
 (async function(){
 
-    const userUrl = "http://localhost:3000/fetchuser";
-    const wlurl = "http://localhost:3000/fetchMyFav";
+    const userUrl = "/fetchuser";
+    const wlurl = "/fetchMyFav";
 
     const wd = await fetch(wlurl);
     const wishD = await wd.json();

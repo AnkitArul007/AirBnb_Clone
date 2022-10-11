@@ -5,8 +5,8 @@ option_btn.addEventListener("click", ()=>{
 });
 console.log("hello");
 
-let user_url = "http://localhost:3000/fetchuser";
-let hostingsurl = "http://localhost:3000/fetchhostings";
+let user_url = "/fetchuser";
+let hostingsurl = "/fetchhostings";
 async function myhostings(){
     try {
         const hostings = await fetch(hostingsurl);
@@ -21,7 +21,7 @@ async function myhostings(){
         //setting up the login btn image::
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/${user[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${user[0].user_image}")`;
 
 
         //removing login signup options whwn a user is logged in::
@@ -56,7 +56,7 @@ async function myhostings(){
 
         //wishlist::
 
-        let wishlisturl = "http://localhost:3000/fetchMyFav";
+        let wishlisturl = "/fetchMyFav";
 
         const wd = await fetch(wishlisturl);
         const wishD = await wd.json();
@@ -153,7 +153,7 @@ async function myhostings(){
 
         
         for (let i=0; i<hosting.length; i++){
-            image[i].style.backgroundImage = `url("http://localhost:3000/getImages/${hostingsdata[i].images[0]}")`;
+            image[i].style.backgroundImage = `url("/getImages/${hostingsdata[i].images[0]}")`;
 
             prop_name[i].textContent = hostingsdata[i].property_name;
             location[i].textContent = hostingsdata[i].property_details.city;
@@ -174,24 +174,24 @@ async function myhostings(){
 
             image[i].addEventListener("click", ()=>{
                 localStorage.setItem("clickedPropertyId", hostingsdata[i].property_id);
-                window.location.assign("http://localhost:3000/hotelBooking");
+                window.location.assign("/hotelBooking");
             });
 
             prop_name[i].addEventListener("click", ()=>{
                 localStorage.setItem("clickedPropertyId", hostingsdata[i].property_id);
-                window.location.assign("http://localhost:3000/hotelBooking");
+                window.location.assign("/hotelBooking");
             });
 
             
             const remove_btn = document.querySelectorAll(".remove");
             
             remove_btn[i].addEventListener("click", async()=>{
-                const del_url = `http://localhost:3000/delProp/${hostingsdata[i].property_id}`;
+                const del_url = `/delProp/${hostingsdata[i].property_id}`;
 
                 const response = await fetch(del_url);
 
                 if (response.status == 200){
-                    window.location.assign("http://localhost:3000/hostedproperties")
+                    window.location.assign("/hostedproperties")
                 }
             })
 

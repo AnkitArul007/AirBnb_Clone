@@ -163,7 +163,7 @@ app.post("/login", async(req, res)=>{
                     httpOnly: true
                 });
 
-                res.status(201).redirect("http://localhost:3000/dashboard");
+                res.status(201).redirect("/dashboard");
                 // res.redirect("/index/:id");
             }else{
                 res.status(400).redirect("/invalidCred")
@@ -635,7 +635,7 @@ app.get("/delmyFavourite/:id", auth, async(req, res)=>{
 
         await Favourite.findOneAndDelete({property_id: req.params.id, user_id: user.user_id});
 
-        res.status(200).redirect("http://localhost:3000/myFavourites");
+        res.status(200).redirect("/myFavourites");
 
     } catch (error) {
         res.status(400).send({"message" : error});

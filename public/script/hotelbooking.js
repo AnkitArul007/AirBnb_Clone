@@ -9,8 +9,8 @@ option_btn.addEventListener("click", ()=>{
 
 const key = localStorage.getItem("clickedPropertyId");
 console.log(key);
-const url = "http://localhost:3000/fetchall";
-const userUrl = "http://localhost:3000/fetchuser";
+const url = "/fetchall";
+const userUrl = "/fetchuser";
 async function hotelBookPageData(){
     try {
         // localStorage.clear();
@@ -23,7 +23,7 @@ async function hotelBookPageData(){
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
 
 
         //removing login signup options whwn a user is logged in::
@@ -72,7 +72,7 @@ async function hotelBookPageData(){
 
         for (let i=0; i<prop_images.length; i++){
             
-            prop_images[i].style.backgroundImage = `url("http://localhost:3000/getImages/${reqData[0].images[i]}")`;
+            prop_images[i].style.backgroundImage = `url("/getImages/${reqData[0].images[i]}")`;
         }
         
         //manipulating the booking page::
@@ -114,37 +114,61 @@ async function hotelBookPageData(){
         const nights = document.getElementById("nights");
         const livePrice = document.getElementById("live_price");
         const prop_id = document.getElementById("prop_id_m");
- 
 
-        checkOut.addEventListener("input", ()=>{
+
+        const minVal = `${new Date(Date.now()).getFullYear()}-${new Date(Date.now()).getMonth()+ 1}-${new Date(Date.now()).getDate()}`;
+        checkIn.setAttribute("min", minVal);
+        checkOut.min = minVal;
+
+        let minValForCheckOut;
+        checkIn.addEventListener("input", ()=>{
+            minValForCheckOut = checkIn.value;
+            minValForCheckOut = new Date(minValForCheckOut)
+            minValForCheckOut =  minValForCheckOut.getTime() + (24*60*60*1000);
+
+            minValForCheckOut = new Date(minValForCheckOut);
+
+            minValForCheckOut = `${minValForCheckOut.getFullYear()}-${minValForCheckOut.getMonth() + 1}-${minValForCheckOut.getDate()}`;
+
+            setCheckOutMin(minValForCheckOut);
             
-            if (checkOut.value < checkIn.value){
+        });
+        
+        function setCheckOutMin(parameter){
+            checkOut.min = parameter;
+        };
+        
+        checkOut.addEventListener("input", ()=>{
+
+            if (checkOut.value <= checkIn.value){
                 alert("Check Out date cannot be less than Check In date");
             }else{
                 const checkIn_day = new Date(checkIn.value);
                 
                 if ((checkOut.value != null || undefined)){
                     checkIn.addEventListener("input", (e)=>{
-                        const checkOut_day = new Date(checkOut.value);
-                        const checkIn_day = new Date(checkIn.value);
-                        const days = checkOut_day.getDate() - checkIn_day.getDate();
-                        const months = checkOut_day.getMonth() - checkIn_day.getMonth();
+                        let checkInTime = new Date(checkIn.value).getTime();
+
+                        let checkOutTime = new Date(checkOut.value).getTime();
+                        let timeDiff = (checkOutTime-checkInTime)/(24*60*60*1000);
+                        console.log(timeDiff);
+
                         
-                        nights.value = days;
+                        nights.value = timeDiff;
                         
-                        livePrice.value = `${(days + (months*30)) * reqData[0].price }`;
+                        livePrice.value = `${timeDiff * reqData[0].price }`;
                         prop_id.value = key;
                     });
-                }
+                };
 
-                const checkOut_day = new Date(checkOut.value);
+                let checkInTime = new Date(checkIn.value).getTime();
 
-                const days = checkOut_day.getDate() - checkIn_day.getDate();
-                const months = checkOut_day.getMonth() - checkIn_day.getMonth();
+                let checkOutTime = new Date(checkOut.value).getTime();
+                let timeDiff = (checkOutTime-checkInTime)/(24*60*60*1000);
+
+                nights.value = timeDiff;
                 
-                nights.value = days;
-                
-                livePrice.value = `${(days + (months*30)) * reqData[0].price }`;
+                livePrice.value = `${timeDiff * reqData[0].price }`;
                 prop_id.value = key;
 
             };
@@ -157,7 +181,7 @@ async function hotelBookPageData(){
         const total_ratings_count = document.getElementById("total_ratings");
         
 
-        const ratingUrl = "http://localhost:3000/ratings";
+        const ratingUrl = "/ratings";
         const newD = await fetch(ratingUrl);
         const ratingData = await newD.json();
 
@@ -207,11 +231,8 @@ async function hotelBookPageData(){
                 const newrange = document.createRange();
                 const newdocFrag = newrange.createContextualFragment(newDynamicCont);
                 myBox.appendChild(newdocFrag);
-                // document.querySelectorAll(".reviews")[counter2].textContent = ratingData[i].review_description;
-                // document.querySelectorAll(".reviewer_names")[counter2].textContent = ratingData[i].user_name;
-                // document.querySelectorAll(".review_dates")[counter2].textContent = "-";
 
-                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("http://localhost:3000/getImages/${ratingData[i].profile_picture}")`
+                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("/getImages/${ratingData[i].profile_picture}")`
             }else{
                 continue;
             }
@@ -231,7 +252,7 @@ async function hotelBookPageData(){
             }
         });
 
-        let wishlisturl = "http://localhost:3000/fetchMyFav";
+        let wishlisturl = "/fetchMyFav";
 
         const wd = await fetch(wishlisturl);
         const wishD = await wd.json();

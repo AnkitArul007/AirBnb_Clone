@@ -10,8 +10,8 @@ option_btn.addEventListener("click", ()=>{
 //removing login signup options whwn a user is logged in::
  (async function(){
 
-    const userUrl = "http://localhost:3000/fetchuser";
-    const wlurl = "http://localhost:3000/fetchMyFav";
+    const userUrl = "/fetchuser";
+    const wlurl = "/fetchMyFav";
 
     const wd = await fetch(wlurl);
     const wishD = await wd.json();
@@ -23,7 +23,7 @@ option_btn.addEventListener("click", ()=>{
     if (userdata != [] || userdata != null || userdata != undefined){
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("http://localhost:3000/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
 
         list.firstElementChild.remove();
 

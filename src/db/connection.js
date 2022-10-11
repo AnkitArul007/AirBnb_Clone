@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const DB = process.env.DATABASE;
 //making connection::
-mongoose.connect(DB, {
+mongoose.connect("mongodb://localhost:27017/airbnbClone", {
     useNewUrlParser:true,
     useUnifiedTopology:true,
     // useCreateIndex: true
