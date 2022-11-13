@@ -211,6 +211,8 @@ async function hotelBookPageData(){
             total_ratings_count.textContent = reqRatingData.length + " reviews";
         }
 
+        console.log(reqData);
+
         let counter2 = 0;
         for (let i=0; i<ratingData.length; i++){
             console.log(ratingData[i].property_id == reqData[0].property_id);
@@ -227,12 +229,14 @@ async function hotelBookPageData(){
                         <p class="reviews">${ratingData[i].review_description}</p>
                     </div>
                     `;
+                    
 
                 const newrange = document.createRange();
                 const newdocFrag = newrange.createContextualFragment(newDynamicCont);
                 myBox.appendChild(newdocFrag);
 
-                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("/getImages/${ratingData[i].profile_picture}")`
+                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("/getImages/${ratingData[i].profile_picture}")`;
+                counter2++;
             }else{
                 continue;
             }

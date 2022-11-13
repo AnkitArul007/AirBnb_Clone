@@ -80,7 +80,7 @@ async function homePageFunction(){
                 <div class="property-details">
                     <div class="property-head">
                         <h3 class="propertyName">property name</h3>
-                        <p><i class="fa-solid fa-star"></i>&ensp;<span class="rated-star"></span></p>
+                        <p><i class="fa-solid fa-star"></i>&ensp;<span class="rated-star">New</span></p>
                     </div>
                     <p class="text">&emsp;location</p>
                     <button class="price" type="button"></button>
@@ -120,12 +120,14 @@ async function homePageFunction(){
 
             const reqData_new = data.forEach((result, counter)=>{
                 let total = 0;
+                let count = 0;
                 for (let i=0; i<ratingData.length; i++){
                     if (result.property_id == ratingData[i].property_id){
                         total += ratingData[i].rating;
-                        document.querySelectorAll(".rated-star")[counter].textContent = total/ratingData.length;
+                        count += 1;
+                        document.querySelectorAll(".rated-star")[counter].textContent = (total/count).toFixed(2);
                     }else{
-                        document.querySelectorAll(".rated-star")[counter].textContent = "new";
+                        continue;
                     }
                 }
             });
@@ -288,7 +290,7 @@ async function homePageFunction(){
 
             let arr = [];
             inputs.forEach(ele=>{
-                if (ele.value == "hotel" || ele.value == "flat" ||ele.value == "resort" || ele.value == "house"){
+                if (ele.value == "hotel" || ele.value == "flat" || ele.value == "resort" || ele.value == "house"){
                     arr.push(ele.value);
                 }
             });
