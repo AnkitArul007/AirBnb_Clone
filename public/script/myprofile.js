@@ -81,7 +81,7 @@ cancelBtn.addEventListener("click", ()=>{
 const deleteuser = document.getElementById("delete-user");
 
 // deleteuser.addEventListener("click", async()=>{
-//     const delurl = "http://localhost:3000/deleteuser";
+//     const delurl = "/deleteuser";
 //     await fetch(delurl).then(res=> {
 //         if (res.status==200){
 //             alert("acc deleted");
@@ -115,7 +115,7 @@ const deleteuser = document.getElementById("delete-user");
 
         const user_img = document.querySelector(".my_user_image");
 
-        user_img.style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
+        user_img.style.backgroundImage = `url("${userdata[0].user_image}")`;
 
         document.getElementById("hide").style.display = "none";
 

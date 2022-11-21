@@ -23,7 +23,7 @@ async function mybookings(){
         //setting up the login btn image::
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/abc.png")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("abc.png")`;
         // console.log(userdata[0].user_image);
 
         //removing login signup options whwn a user is logged in::
@@ -218,7 +218,7 @@ async function mybookings(){
                     prop_name[i].textContent = ele.property_name;    
                     location[i].textContent = ele.property_details.city;
 
-                    prop_image[i].style.backgroundImage = `url("/getImages/${ele.images[0]}")`
+                    prop_image[i].style.backgroundImage = `url("${ele.images[0]}")`
                 }
             });
 

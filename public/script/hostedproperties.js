@@ -21,7 +21,7 @@ async function myhostings(){
         //setting up the login btn image::
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${user[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("${user[0].user_image}")`;
 
 
         //removing login signup options whwn a user is logged in::
@@ -153,7 +153,7 @@ async function myhostings(){
 
         
         for (let i=0; i<hosting.length; i++){
-            image[i].style.backgroundImage = `url("/getImages/${hostingsdata[i].images[0]}")`;
+            image[i].style.backgroundImage = `url("${hostingsdata[i].images[0]}")`;
 
             prop_name[i].textContent = hostingsdata[i].property_name;
             location[i].textContent = hostingsdata[i].property_details.city;

@@ -26,7 +26,7 @@ async function homePageFunction(){
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("${userdata[0].user_image}")`;
 
 
         //removing login signup options whwn a user is logged in::
@@ -107,7 +107,7 @@ async function homePageFunction(){
             prop_type[i].value = data[i].property_type;
             prop_id[i].value = data[i].property_id;
 
-            carousel[i].style.backgroundImage = `url("/getImages/${data[i].images[0]}")`;
+            carousel[i].style.backgroundImage = `url("${data[i].images[0]}")`;
             
             propertyName[i].textContent = data[i].property_name;
             text[i].textContent = data[i].property_details.city;
@@ -146,7 +146,7 @@ async function homePageFunction(){
         
                     //selecting the desired outputs::
                     buttons[j].classList.add("selected");
-                    carousel[i].style.backgroundImage = `url("/getImages/${data[i].images[j]}")`;
+                    carousel[i].style.backgroundImage = `url("${data[i].images[j]}")`;
                 });
             });
         });
@@ -408,7 +408,7 @@ async function homePageFunction(){
         //     let body = {
         //         prop_id:document.getElementById("prop_id").value
         //     }
-        //     await fetch("http://localhost:3000/myFavourites", {
+        //     await fetch("/myFavourites", {
         //         method: 'POST',
         //         body: JSON.stringify(body),
         //         headers:{

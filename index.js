@@ -9,12 +9,15 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 const auth = require("./src/middlewares/auth");
 const cors = require("cors");
+const cloudinary = require("cloudinary"); // importing cloudinary library:
+const Datauri = require("datauri/parser");
 
 
 const {User, Property, Booking, Rating, Contact, Favourite} = require("./src/models/collections");
 const { log } = require("console");
 const { Schema } = require('mongoose');
 require("./src/db/connection");
+require("./configs/cloudinaryConfig");
 
 
 //creating PORT::
@@ -39,6 +42,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cors({"origin": "*"}));
 
+
+//datauri configuration part::
+
+const image_encoded = new Datauri();
+// console.log(image_encoded);
+const imageEncodingFunc = (image)=>{
+    console.log(image);
+    return image_encoded.format(path.extname(image.originalname).toString(), image.buffer);
+
+}
+
 //routing::
 app.get("", async(req, res)=>{
     try {
@@ -60,19 +74,21 @@ app.get("/register", (req, res)=>{
 
 
 //SETTING UP MULTER FOR STROING profile IMAGES::
-const storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, "./images");
-    },
-    filename:function(req, file, cb){
-        console.log(file);
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
+// const storage = multer.memoryStorage({
+    // destination: function(req, file, cb){
+    //     cb(null, "./images");
+    // },
+    // filename:function(req, file, cb){
+    //     console.log(file);
+    //     cb(null, Date.now() + path.extname(file.originalname));
+    // }
+// });
 
 // function filter(req, file, cb){
 
 // }
+
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
@@ -80,8 +96,16 @@ const upload = multer({
 });
 
 app.post("/register", upload.single("profile_picture"), async (req, res)=>{
-    console.log("before try");
+
     try {
+        console.log(req.file);
+        const file = await imageEncodingFunc(req.file).content  ;
+        console.log("this is the file - ",file);
+        // console.log("this is the new datauri object - ", image_encoded);
+
+        const result = await cloudinary.v2.uploader.upload(file);
+        const imageurl = result.url;
+
         const password = req.body.password;
         const confirmPassword = req.body.confirm_password;
 
@@ -110,7 +134,7 @@ app.post("/register", upload.single("profile_picture"), async (req, res)=>{
                 dateOfBirth: req.body.dob,
                 city: req.body.city,
                 country: req.body.country,
-                profile_picture: req.file.filename
+                profile_picture: imageurl
             })
 
             //hashing the password using bcrypt
@@ -194,6 +218,7 @@ app.get("/hosting", auth, async(req, res)=>{
 
 app.post("/hosting", upload.array("galleryimages"), async(req, res)=>{
     try {
+
         let seqId = 0; // generating our seqId as 0 and we will update this according to the number of users in our database
 
         //User is my user who registers model name
@@ -208,42 +233,51 @@ app.post("/hosting", upload.array("galleryimages"), async(req, res)=>{
         const data = await jwt.verify(mycookie, process.env.SECRET_KEY);
 
         //setting the uploaded images in an array::
-        let imageArr = req.files.map(file => file.filename);
+        let imageArr = [];
+        req.files.forEach(async (img) => {
+            const file = await imageEncodingFunc(img).content  ;
 
+            const result = await cloudinary.v2.uploader.upload(file);
+            const imageurl = result.url;
+            imageArr.push(imageurl);
 
-        const property_registration = new Property({
-            property_id: seqId,
-            user_id: data.user_id,
-            property_type: req.body.property_type,
-            property_name: req.body.property_name,
-            owner_name: req.body.owner,
-            property_details:{
-                city: req.body.city,
-                state: req.body.state,
-                country: req.body.country
-            },
-            price: req.body.price,
-            area: req.body.area,
-            rating: req.body.rating,
-            images: imageArr,
-            bedrooms: req.body.bedrooms,
-            beds: req.body.beds,
-            guests_allowed: req.body.guest_allowed,
-            description: req.body.textarea,
-            amenities:{
-                parking: req.body.parking,
-                wifi: req.body.wifi,
-                breakfast: req.body.breakfast,
-                ac: req.body.ac,
-                laundry: req.body.laundry,
-                fridge: req.body.fridge,
-                kitchen: req.body.kitchen,
-                smoke_alarm: req.body.smoke_alarm,
-                pets_allowed: req.body.pets_allowed,
+            if (imageArr.length === req.files.length){
+                const property_registration = new Property({
+                    property_id: seqId,
+                    user_id: data.user_id,
+                    property_type: req.body.property_type,
+                    property_name: req.body.property_name,
+                    owner_name: req.body.owner,
+                    property_details:{
+                        city: req.body.city,
+                        state: req.body.state,
+                        country: req.body.country
+                    },
+                    price: req.body.price,
+                    area: req.body.area,
+                    rating: req.body.rating,
+                    images: imageArr,
+                    bedrooms: req.body.bedrooms,
+                    beds: req.body.beds,
+                    guests_allowed: req.body.guest_allowed,
+                    description: req.body.textarea,
+                    amenities:{
+                        parking: req.body.parking,
+                        wifi: req.body.wifi,
+                        breakfast: req.body.breakfast,
+                        ac: req.body.ac,
+                        laundry: req.body.laundry,
+                        fridge: req.body.fridge,
+                        kitchen: req.body.kitchen,
+                        smoke_alarm: req.body.smoke_alarm,
+                        pets_allowed: req.body.pets_allowed,
+                    }
+                });
+                const propertyregistered = await property_registration.save();
+                res.status(200).redirect("/hostedproperties");
             }
         });
-        const propertyregistered = await property_registration.save();
-        res.status(200).redirect("/hostedproperties");
+
     } catch (error) {
         console.log(error);
     }

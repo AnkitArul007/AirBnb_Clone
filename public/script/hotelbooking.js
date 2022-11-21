@@ -23,7 +23,7 @@ async function hotelBookPageData(){
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("${userdata[0].user_image}")`;
 
 
         //removing login signup options whwn a user is logged in::
@@ -72,7 +72,7 @@ async function hotelBookPageData(){
 
         for (let i=0; i<prop_images.length; i++){
             
-            prop_images[i].style.backgroundImage = `url("/getImages/${reqData[0].images[i]}")`;
+            prop_images[i].style.backgroundImage = `url("${reqData[0].images[i]}")`;
         }
         
         //manipulating the booking page::
@@ -235,7 +235,7 @@ async function hotelBookPageData(){
                 const newdocFrag = newrange.createContextualFragment(newDynamicCont);
                 myBox.appendChild(newdocFrag);
 
-                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("/getImages/${ratingData[i].profile_picture}")`;
+                document.querySelectorAll(".reviewer_images")[counter2].style.backgroundImage = `url("${ratingData[i].profile_picture}")`;
                 counter2++;
             }else{
                 continue;

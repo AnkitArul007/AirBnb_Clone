@@ -23,7 +23,7 @@ async function myWhishlist(){
 
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("${userdata[0].user_image}")`;
 
         //removing login signup options whwn a user is logged in::
         list.firstElementChild.remove();
@@ -106,7 +106,7 @@ async function myWhishlist(){
             for (let i=0; i<data.length; i++){
                 document.querySelectorAll(".myFav_prop_name")[i].textContent = data[i].property_name;
     
-                document.querySelectorAll(".myFav_img")[i].style.backgroundImage = `url("/getImages/${data[i].images[0]}")`;
+                document.querySelectorAll(".myFav_img")[i].style.backgroundImage = `url("${data[i].images[0]}")`;
     
                 document.querySelectorAll(".title")[i].textContent = wishData[i].title;
     

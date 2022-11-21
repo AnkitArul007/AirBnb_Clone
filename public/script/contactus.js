@@ -23,7 +23,7 @@ option_btn.addEventListener("click", ()=>{
     if (userdata != [] || userdata != null || userdata != undefined){
         document.getElementById("hide").style.display = "none";
 
-        document.getElementById("loginuser_image").style.backgroundImage = `url("/getImages/${userdata[0].user_image}")`;
+        document.getElementById("loginuser_image").style.backgroundImage = `url("${userdata[0].user_image}")`;
 
         list.firstElementChild.remove();
 
